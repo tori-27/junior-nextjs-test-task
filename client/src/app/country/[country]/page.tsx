@@ -5,6 +5,9 @@ import { useCountryPrice } from "@/app/hooks/useCountryPrice";
 import ElectricityPriceChart from "@/app/components/charts/LineChart";
 import ActivityWidgetsContainer from "@/app/components/ui/ActivityWidgetsContainer";
 import ExportButton from "@/app/components/ui/ExportButton";
+import Loader from "@/app/components/ui/Loader";
+import NoData from "@/app/components/ui/NoData";
+import GoBackButton from "@/app/components/ui/GoBackButton";
 
 const countryToBiddingZone = {
     austria: 'AT',
@@ -38,29 +41,32 @@ const CountryDetail = ({ params }: { params: Promise<{ country: string }> }) => 
 
     const { data, isLoading, isError } = useCountryPrice(biddingZone);
 
-    if (!country) return <p>Loading...</p>;
-    if (!biddingZone) return <p>Sorry, no data available for {country}.</p>;
-    if (isLoading) return <p>Loading data...</p>;
+    if (!country || isLoading) return <Loader />;
+    if (!biddingZone) return <NoData country={country}/>;
     if (isError) return <p>Error fetching data.</p>;
 
     const averagePrice = data.price.reduce((sum, price) => sum + price, 0) / data.price.length;
 
     return (
         <div className="container mx-auto py-6">
-            <h1 className="text-3xl font-bold mb-4">Electricity Prices in {country}</h1>
-            {data.deprecated && <p className="text-red-500">This data is deprecated.</p>}
-            <p>License: {data.license_info}</p>
-            <p>Unit: {data.unit}</p>
+            <div className="relative mb-4">
+                <div className="absolute top-4 left-4 z-10">
+                    <GoBackButton/>
+                </div>
+                <h1 className="text-3xl font-bold text-center">Electricity Prices in {country}</h1>
+            </div>
 
-            <ElectricityPriceChart apiDataItem={data} countryName={country}/>
+            <p className="text-center mb-4">Unit: {data.unit}</p>
+
+            <div className="relative bg-white shadow-md p-4 rounded-lg">
+                <ElectricityPriceChart apiDataItem={data} countryName={country}/>
+            </div>
 
             <ExportButton chartData={data} fileName={`${country}ElectricityPrices.xlsx`}/>
 
-            <div className="fixed left-0 w-screen bg-pink-100 py-4 min-h-screen ">
+            <div className="fixed left-0 w-screen bg-pink-100 py-4 min-h-screen">
                 <ActivityWidgetsContainer pricePerMWh={averagePrice}/>
             </div>
-
-
         </div>
     );
 };

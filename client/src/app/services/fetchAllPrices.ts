@@ -1,5 +1,3 @@
-import { useQuery } from "react-query";
-
 const fetchAllPrices = async () => {
     const response = await fetch('/api/all-prices');
     if (!response.ok) {

@@ -3,10 +3,11 @@ import React from 'react';
 import EuropeMap from "@/app/components/map/EuropeMap";
 import { useAllPrices } from "@/app/hooks/useAllPrices";
 import CountryList from "@/app/components/ui/CountryList";
+import ProgressBarLoader from "@/app/components/ui/ProgressBarLoader";
 
 export default function Home() {
     const { data, isLoading, error } = useAllPrices();
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return <ProgressBarLoader />;
     if (error) return <p>Error loading data.</p>;
     return (
         <div className="flex justify-between flex-col md:flex-row lg:flex-row">

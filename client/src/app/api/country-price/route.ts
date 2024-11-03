@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import LRU, { LRUCache } from 'lru-cache';
 import cache from "@/app/utils/cache";
 
 export async function GET(req: NextRequest) {

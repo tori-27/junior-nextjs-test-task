@@ -40,7 +40,7 @@ const biddingZoneToCountry: { [key: string]: string } = Object.fromEntries(
 const CountryList: React.FC<CountryListProps> = ({ prices }) => {
     const [sortType, setSortType] = useState<'price' | 'alphabet'>('alphabet');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-    const [searchQuery, setSearchQuery] = useState(''); // Додаємо стан для пошуку
+    const [searchQuery, setSearchQuery] = useState('');
 
     const handleSortChange = (newSortType: 'price' | 'alphabet') => {
         if (sortType === newSortType) {

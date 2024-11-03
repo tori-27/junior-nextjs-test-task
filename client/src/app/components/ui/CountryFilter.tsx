@@ -3,11 +3,11 @@ import React from 'react';
 type CountryFilterProps = {
     sortType: 'price' | 'alphabet';
     sortOrder: 'asc' | 'desc';
-    onSortChange: (sortType: 'price') => void;
+    onSortChange: (sortType: string) => void;
     onSortOrderToggle: () => void;
 };
 
-const CountryFilter: React.FC<CountryFilterProps> = ({ sortType, sortOrder, onSortChange, onSortOrderToggle }) => {
+const CountryFilter: React.FC<CountryFilterProps> = ({ sortType, sortOrder, onSortChange}) => {
     return (
         <div className="mb-4">
             <button

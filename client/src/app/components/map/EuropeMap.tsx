@@ -44,7 +44,6 @@ const EuropeMap: React.FC<EuropeMapProps> = ({ prices }) => {
     };
 
     const handleCountryHover = (event: React.MouseEvent, countryName: string) => {
-        // Перетворюємо назву країни на код зони
         const countryCode = countryToBiddingZone[countryName];
 
         if (!countryCode) {
@@ -60,7 +59,6 @@ const EuropeMap: React.FC<EuropeMapProps> = ({ prices }) => {
         const priceData = prices.find((item) => item.bzn === countryCode);
         const price = priceData ? priceData.data.price[priceData.data.price.length - 1] || null : null;
 
-        // Оновлюємо стан tooltip
         setTooltip({
             country: countryName,
             price,

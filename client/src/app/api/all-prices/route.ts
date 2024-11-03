@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import cache from "@/app/utils/cache";
 
 const biddingZones = [
@@ -6,7 +6,7 @@ const biddingZones = [
     "FR", "HU", "IT-North", "NL", "NO2", "PL", "SE4"
 ];
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         const fetchPromises = biddingZones.map(async (bzn) => {
             const cacheKey = `electricity_prices_${bzn}`;

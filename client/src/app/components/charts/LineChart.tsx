@@ -15,22 +15,20 @@ const ElectricityPriceChart: React.FC<ElectricityPriceChartProps> = ({ apiDataIt
     const chartRef = useRef(null);
     const chartData = parseDataToChartData(apiDataItem, countryName);
 
-    // Параметри з градієнтом для графіку
     const options = {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
             tooltip: {
                 callbacks: {
-                    label: (tooltipItem) => `€${tooltipItem.raw}`
+                    label: (tooltipItem : any) => `€${tooltipItem.raw}`
                 }
             },
-            // Додавання градієнтного фону
-            beforeDraw: (chart) => {
+            beforeDraw: (chart: any) => {
                 const ctx = chart.ctx;
                 const gradient = ctx.createLinearGradient(0, 0, 0, chart.height!);
-                gradient.addColorStop(0, 'rgba(230, 122, 172, 0.4)'); // Початок градієнту
-                gradient.addColorStop(1, 'rgba(230, 122, 172, 0)'); // Кінець градієнту
+                gradient.addColorStop(0, 'rgba(230, 122, 172, 0.4)');
+                gradient.addColorStop(1, 'rgba(230, 122, 172, 0)');
 
                 chartData.datasets[0].backgroundColor = gradient;
             }
@@ -51,7 +49,7 @@ const ElectricityPriceChart: React.FC<ElectricityPriceChartProps> = ({ apiDataIt
         },
         elements: {
             line: {
-                fill: true, // Активуємо заливку під лінією графіка
+                fill: true,
             }
         }
     };
