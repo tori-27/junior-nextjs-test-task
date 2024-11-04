@@ -3,7 +3,7 @@ import React from 'react';
 type CountryFilterProps = {
     sortType: 'price' | 'alphabet';
     sortOrder: 'asc' | 'desc';
-    onSortChange: (sortType: string) => void;
+    onSortChange: (sortType: 'price' | 'alphabet') => void;
     onSortOrderToggle: () => void;
 };
 

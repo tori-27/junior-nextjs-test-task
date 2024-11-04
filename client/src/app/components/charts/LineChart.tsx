@@ -33,6 +33,9 @@ const ElectricityPriceChart: React.FC<ElectricityPriceChartProps> = ({ apiDataIt
                 callbacks: {
                     label: (tooltipItem: TooltipItem<'line'>) => {
                         const { data } = tooltipItem.dataset;
+
+                        if (!data) return `€${tooltipItem.raw}`;
+
                         const numericData = (data as (number | null | { x: number, y: number })[])
                             .map(item => typeof item === 'number' ? item : item?.y)
                             .filter((item): item is number => item !== null && item !== undefined);

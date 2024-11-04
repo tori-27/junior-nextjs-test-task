@@ -16,21 +16,17 @@ type CountryListProps = {
     prices: PriceData[];
 };
 
-const CountryList: React.FC<CountryListProps> = ({ prices }) => {
+const CountryList: React.FC<CountryListProps> = ({ prices = [] }) => {
     const [sortType, setSortType] = useState<'price' | 'alphabet'>('alphabet');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
     const [searchQuery, setSearchQuery] = useState('');
 
-    const handleSortChange = (newSortType: string) => {
-        if (newSortType === 'price' || newSortType === 'alphabet') {
-            if (sortType === newSortType) {
-                setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
-            } else {
-                setSortType(newSortType);
-                setSortOrder('asc');
-            }
+    const handleSortChange = (newSortType: 'price' | 'alphabet') => {
+        if (sortType === newSortType) {
+            setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
         } else {
-            console.error("Invalid sort type");
+            setSortType(newSortType);
+            setSortOrder('asc');
         }
     };
 
@@ -51,8 +47,8 @@ const CountryList: React.FC<CountryListProps> = ({ prices }) => {
 
     const sortedPrices = [...filteredPrices].sort((a, b) => {
         if (sortType === 'price') {
-            const priceA = a.data.price[a.data.price.length - 1] || 0;
-            const priceB = b.data.price[b.data.price.length - 1] || 0;
+            const priceA = a.data.price.length ? a.data.price[a.data.price.length - 1] : 0;
+            const priceB = b.data.price.length ? b.data.price[b.data.price.length - 1] : 0;
             return sortOrder === 'asc' ? priceA - priceB : priceB - priceA;
         } else {
             const countryA = getCountryFromBiddingZone(a.bzn) || a.bzn;
@@ -60,6 +56,7 @@ const CountryList: React.FC<CountryListProps> = ({ prices }) => {
             return sortOrder === 'asc' ? countryA.localeCompare(countryB) : countryB.localeCompare(countryA);
         }
     });
+
     const capitalizeCountryName = (country: string): string => {
         if (country.toLowerCase() === "czech republic") {
             return "Czech Republic";
@@ -70,18 +67,20 @@ const CountryList: React.FC<CountryListProps> = ({ prices }) => {
     return (
         <div>
             <h2 className="text-lg font-semibold mb-4">Available Countries</h2>
-            <CountrySearch searchQuery={searchQuery} onSearchChange={handleSearchChange} />
-            <CountryFilter sortType={sortType} sortOrder={sortOrder} onSortChange={handleSortChange} onSortOrderToggle={handleSortOrderToggle} />
+            <CountrySearch searchQuery={searchQuery} onSearchChange={handleSearchChange}/>
+            <CountryFilter sortType={sortType} sortOrder={sortOrder} onSortChange={handleSortChange}
+                           onSortOrderToggle={handleSortOrderToggle}/>
             <ul className="space-y-2">
                 {sortedPrices.map((item) => (
                     <CountryListItem
                         key={item.bzn}
                         countryName={capitalizeCountryName(getCountryFromBiddingZone(item.bzn) || item.bzn)}
-                        price={item.data.price[item.data.price.length - 1] || null}
-                        timestamp={item.data.unix_seconds[item.data.unix_seconds.length - 1] || null}
+                        price={item.data.price.length ? item.data.price[item.data.price.length - 1] : null}
+                        timestamp={item.data.unix_seconds.length ? item.data.unix_seconds[item.data.unix_seconds.length - 1] : null}
                     />
                 ))}
             </ul>
+
         </div>
     );
 };
