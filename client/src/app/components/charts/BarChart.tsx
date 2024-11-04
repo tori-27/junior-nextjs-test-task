@@ -1,27 +1,17 @@
 import React, { useRef } from 'react';
-import { Line } from 'react-chartjs-2';
-import {
-    Chart as ChartJS,
-    LineElement,
-    PointElement,
-    LinearScale,
-    Title,
-    Tooltip,
-    CategoryScale,
-    Filler,
-    TooltipItem
-} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+import {Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, TooltipItem} from 'chart.js';
 import parseDataToChartData from '../../services/parseDataToChartData';
 import { ApiDataItem } from '../../services/parseDataToChartData';
 
-ChartJS.register(LineElement, PointElement, LinearScale, Title, Tooltip, CategoryScale, Filler);
+ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip);
 
-type ElectricityPriceChartProps = {
+type ElectricityPriceBarChartProps = {
     apiDataItem: ApiDataItem;
     countryName: string;
 };
 
-const ElectricityPriceChart: React.FC<ElectricityPriceChartProps> = ({ apiDataItem, countryName }) => {
+const ElectricityPriceBarChart: React.FC<ElectricityPriceBarChartProps> = ({ apiDataItem, countryName }) => {
     const chartRef = useRef(null);
     const { chartData, avgPrice } = parseDataToChartData(apiDataItem, countryName);
 
@@ -31,7 +21,7 @@ const ElectricityPriceChart: React.FC<ElectricityPriceChartProps> = ({ apiDataIt
         plugins: {
             tooltip: {
                 callbacks: {
-                    label: (tooltipItem: TooltipItem<'line'>) => {
+                    label: (tooltipItem: TooltipItem<'bar'>) => {
                         const { data } = tooltipItem.dataset;
                         const numericData = (data as (number | null | { x: number, y: number })[])
                             .map(item => typeof item === 'number' ? item : item?.y)
@@ -61,11 +51,6 @@ const ElectricityPriceChart: React.FC<ElectricityPriceChartProps> = ({ apiDataIt
                 },
             },
         },
-        elements: {
-            line: {
-                fill: true,
-            }
-        }
     };
 
     return (
@@ -73,9 +58,9 @@ const ElectricityPriceChart: React.FC<ElectricityPriceChartProps> = ({ apiDataIt
             <div style={{ textAlign: 'center', marginBottom: '10px' }}>
                 Average Price: €{avgPrice.toFixed(2)}
             </div>
-            <Line ref={chartRef} data={chartData} options={options} />
+            <Bar ref={chartRef} data={chartData} options={options} />
         </div>
     );
 };
 
-export default ElectricityPriceChart;
+export default ElectricityPriceBarChart;

@@ -11,6 +11,7 @@ const CountryListItem: React.FC<CountryListItemProps> = ({ countryName, price, t
     const router = useRouter();
 
     const handleItemClick = () => {
+        console.log("From CountryList", countryName);
         router.push(`/country/${countryName.toLowerCase()}`);
     };
 

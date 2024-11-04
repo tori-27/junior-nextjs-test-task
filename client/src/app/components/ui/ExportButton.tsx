@@ -1,16 +1,15 @@
-// components/ExportButton.tsx
-
 import React from 'react';
-import exportChartDataToExcel from '../../services/exportToExcel';
-import ChartData from '../../services/parseDataToChartData';
+import exportChartDataToExcel from "@/app/services/exportToExcel";
+import {ChartData} from "@/app/services/parseDataToChartData";
 
 type ExportButtonProps = {
     chartData: ChartData;
     fileName?: string;
 };
 
-const ExportButton: React.FC<ExportButtonProps> = ({ chartData, fileName = 'ElectricityPrices.xlsx' }) => {
+const ExportButton: React.FC<ExportButtonProps> = ({ chartData,  fileName = 'ElectricityPrices.xlsx' }) => {
     const handleExport = () => {
+        console.log("Here is data", chartData);
         exportChartDataToExcel(chartData, fileName);
     };
 

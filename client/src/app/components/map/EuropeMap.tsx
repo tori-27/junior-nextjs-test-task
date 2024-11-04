@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
+import {getBiddingZone} from "@/app/utils/countryMapper";
 
 const geoUrl = '/europe.topojson';
 
@@ -17,24 +18,6 @@ type EuropeMapProps = {
     prices: PriceData[];
 };
 
-const countryToBiddingZone = {
-    Austria: 'AT',
-    Belgium: 'BE',
-    Switzerland: 'CH',
-    "Czech Republic": 'CZ',
-    Germany: 'DE-LU',
-    "Denmark 1": 'DK1',
-    "Denmark 2": 'DK2',
-    France: 'FR',
-    Hungary: 'HU',
-    Italy: 'IT-North',
-    Netherlands: 'NL',
-    Norway: 'NO2',
-    Poland: 'PL',
-    Sweden: 'SE4',
-    Slovenia: 'SI'
-};
-
 const EuropeMap: React.FC<EuropeMapProps> = ({ prices }) => {
     const router = useRouter();
     const [tooltip, setTooltip] = useState<{ country: string; price: number | null; x: number; y: number } | null>(null);
@@ -44,7 +27,7 @@ const EuropeMap: React.FC<EuropeMapProps> = ({ prices }) => {
     };
 
     const handleCountryHover = (event: React.MouseEvent, countryName: string) => {
-        const countryCode = countryToBiddingZone[countryName];
+        const countryCode = getBiddingZone(countryName);
 
         if (!countryCode) {
             setTooltip({

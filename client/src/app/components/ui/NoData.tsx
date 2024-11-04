@@ -1,7 +1,11 @@
 import React from 'react';
 import GoBackButton from './GoBackButton';
 
-const NoData = ({ country }) => {
+type NoDataProps = {
+    country: string;
+};
+
+const NoData: React.FC<NoDataProps> = ({ country }) => {
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
             <div className="bg-white p-10 rounded-lg shadow-lg text-center max-w-sm">

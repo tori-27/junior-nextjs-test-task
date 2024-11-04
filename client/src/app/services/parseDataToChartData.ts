@@ -15,16 +15,27 @@ export type ChartData = {
         backgroundColor?: string;
     }[];
 };
-const parseDataToChartData = (apiDataItem: ApiDataItem, countryName: string): ChartData => {
+
+const parseDataToChartData = (apiDataItem: ApiDataItem, countryName: string) => {
+    if (!apiDataItem.unix_seconds || !apiDataItem.price) {
+        console.error("Invalid ApiDataItem structure:", apiDataItem);
+        return { chartData: { labels: [], datasets: [] }, minPrice: 0, maxPrice: 0, avgPrice: 0 };
+    }
+
     const labels = apiDataItem.unix_seconds.map(timestamp =>
         new Date(timestamp * 1000).toLocaleTimeString("en-GB", {
             hour: '2-digit',
             minute: '2-digit',
         })
     );
+
     const data = apiDataItem.price;
 
-    return {
+    const minPrice = Math.min(...data);
+    const maxPrice = Math.max(...data);
+    const avgPrice = data.reduce((a, b) => a + b, 0) / data.length;
+
+    const chartData: ChartData = {
         labels,
         datasets: [
             {
@@ -35,6 +46,8 @@ const parseDataToChartData = (apiDataItem: ApiDataItem, countryName: string): Ch
             }
         ]
     };
+
+    return { chartData, minPrice, maxPrice, avgPrice };
 };
 
 export default parseDataToChartData;
