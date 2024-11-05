@@ -1,4 +1,3 @@
-// components/ProgressLoader.js
 import React, { useState, useEffect } from 'react';
 import ProgressBar from '@ramonak/react-progress-bar';
 

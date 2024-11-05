@@ -12,6 +12,7 @@ import GoBackButton from "@/app/components/ui/GoBackButton";
 import ChartToggleButton from "@/app/components/ui/ChartToggleButton";
 import { getBiddingZone } from "@/app/utils/countryMapper";
 import parseDataToChartData from "@/app/services/parseDataToChartData";
+import ErrorFetchingData from "@/app/components/ui/ErrorFetchingData";
 
 const CountryDetail = ({ params }: { params: Promise<{ country: string }> }) => {
     const [country, setCountry] = useState<string | null>(null);
@@ -32,7 +33,7 @@ const CountryDetail = ({ params }: { params: Promise<{ country: string }> }) => 
 
     if (!country || isLoading) return <Loader />;
     if (!biddingZone) return <NoData country={country} />;
-    if (isError) return <p>Error fetching data.</p>;
+    if (isError) return <ErrorFetchingData message={`Failed to fetch data for ${country}`} />;
 
     const averagePrice = data.price.reduce((sum: number, price: number) => sum + price, 0) / data.price.length;
     const capitalizeCountryName = (country: string): string => {
