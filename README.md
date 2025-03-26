@@ -1,3 +1,5 @@
+This is a test task for the Junior FE developer position. I completed it successfully and received an offer
+
 # Electricity Price Application
 
 ## Live Demo
